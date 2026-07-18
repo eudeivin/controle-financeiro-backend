@@ -1,0 +1,44 @@
+package com.meuprojeto.controle_financeiro.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "transacoes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Transacao {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String descricao;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor;
+
+    @Column(nullable = false)
+    private LocalDate data;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoTransacao tipo;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+}
