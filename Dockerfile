@@ -1,11 +1,11 @@
-# 1. Fase de Build (Compilação) com Java 17
-FROM maven:3.8.8-openjdk-17 AS build
+# 1. Fase de Build (Compilação) com Java 17 legítimo
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# 2. Fase de Execução com Java 17 Leve
-FROM openjdk:17-jdk-slim
+# 2. Fase de Execução com a imagem correta do Eclipse Temurin 17
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
