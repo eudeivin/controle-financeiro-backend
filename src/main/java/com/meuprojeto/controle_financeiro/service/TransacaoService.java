@@ -11,6 +11,7 @@ import com.meuprojeto.controle_financeiro.repository.TransacaoRepository;
 import com.meuprojeto.controle_financeiro.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -73,5 +74,12 @@ public class TransacaoService {
                 transacao.getTipo(),
                 transacao.getCategoria().getNome()
         );
+    }
+
+    public List<TransacaoResponseDTO> listarPorUsuarioEPeriodo(Long usuarioId, LocalDate inicio, LocalDate fim) {
+        return transacaoRepository.findByUsuarioIdAndDataBetween(usuarioId, inicio, fim)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 }

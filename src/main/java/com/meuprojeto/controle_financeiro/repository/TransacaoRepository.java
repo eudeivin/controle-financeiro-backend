@@ -14,6 +14,7 @@ import java.util.List;
 public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 
     List<Transacao> findByUsuarioId(Long usuarioId);
+    List<Transacao> findByUsuarioIdAndDataBetween(Long usuarioId, LocalDate inicio, LocalDate fim);
 
     @Query("""
         SELECT COALESCE(SUM(t.valor), 0)

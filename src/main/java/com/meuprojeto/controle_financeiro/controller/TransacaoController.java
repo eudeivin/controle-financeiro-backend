@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,16 @@ public class TransacaoController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         transacaoService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/periodo")
+    public ResponseEntity<List<TransacaoResponseDTO>> listarPorPeriodo(
+            @RequestParam int ano,
+            @RequestParam int mes) {
+        LocalDate inicio = LocalDate.of(ano, mes, 1);
+        LocalDate fim = java.time.YearMonth.of(ano, mes).atEndOfMonth();
+
+        return ResponseEntity.ok(
+                transacaoService.listarPorUsuarioEPeriodo(usuarioAutenticado.getUsuarioId(), inicio, fim)
+        );
     }
 }
